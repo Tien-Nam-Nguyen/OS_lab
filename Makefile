@@ -1,4 +1,3 @@
-
 INC = -Iinclude
 LIB = -lpthread
 
@@ -62,8 +61,11 @@ test_os:
 	./os os_1
 	@echo NOTE: Read file output/os_1 to verify your result
 
-$(OBJ)/%.o: %.c ${HEADER}
+$(OBJ)/%.o: %.c $(HEADER) $(OBJ)
 	$(MAKE) $(CFLAGS) $< -o $@
+
+$(OBJ):
+	mkdir $(OBJ)
 
 clean:
 	rm -f obj/*.o os sched mem
