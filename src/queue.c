@@ -14,15 +14,8 @@ enqueue (struct queue_t *q, struct pcb_t *proc)
   /* TODO: put a new process to queue [q] */
   if (q->size < MAX_QUEUE_SIZE && q->size >= 0 && proc != NULL)
     {
-      for (int i = 0; i < MAX_QUEUE_SIZE; i++)
-        {
-          if (q->proc[i] == NULL)
-            {
-              q->proc[i] = proc;
-              q->size++;
-              break;
-            }
-        }
+      q->proc[q->size] = proc;
+      q->size++;
     }
 }
 
@@ -44,7 +37,7 @@ dequeue (struct queue_t *q)
             }
           if (q->proc[i] != NULL)
             {
-              if (q->proc[i]->priority >= q->proc[k]->priority)
+              if (q->proc[i]->priority > q->proc[k]->priority)    //bo dau =
                 {
                   k = i;
                 }
@@ -52,6 +45,11 @@ dequeue (struct queue_t *q)
         }
       struct pcb_t *res = q->proc[k];
       q->proc[k] = NULL;
+      for (int j = k; j < MAX_QUEUE_SIZE - 1; j++)
+        {
+          q->proc[j] = q->proc[j+1];
+        }
+      q->proc[q->size - 1] = NULL;
       q->size--;
       return res;
     }
