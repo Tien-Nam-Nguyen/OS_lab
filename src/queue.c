@@ -37,7 +37,7 @@ dequeue (struct queue_t *q)
             }
           if (q->proc[i] != NULL)
             {
-              if (q->proc[i]->priority > q->proc[k]->priority)    //bo dau =
+              if (q->proc[i]->priority > q->proc[k]->priority) // bo dau =
                 {
                   k = i;
                 }
@@ -47,7 +47,7 @@ dequeue (struct queue_t *q)
       q->proc[k] = NULL;
       for (int j = k; j < MAX_QUEUE_SIZE - 1; j++)
         {
-          q->proc[j] = q->proc[j+1];
+          q->proc[j] = q->proc[j + 1];
         }
       q->proc[q->size - 1] = NULL;
       q->size--;
