@@ -49,10 +49,10 @@ load (const char *path)
   proc->pid = avail_pid;
   avail_pid++;
   proc->seg_table = (struct seg_table_t *)malloc (sizeof (struct seg_table_t));
-  
+
   // insert code to init seg_table
   proc->seg_table->size = 0;
-  for (int i = 0; i < (1 << SEGMENT_LEN); i ++) 
+  for (int i = 0; i < (1 << SEGMENT_LEN); i++)
     {
       proc->seg_table->table[i].pages = NULL;
       proc->seg_table->table[i].v_index = i;

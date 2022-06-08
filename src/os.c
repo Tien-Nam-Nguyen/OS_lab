@@ -171,7 +171,7 @@ main (int argc, char *argv[])
   /* Init scheduler */
   init_scheduler ();
 
-  /* Run CP Uand loader */
+  /* Run CPU and loader */
   pthread_create (&ld, NULL, ld_routine, (void *)ld_event);
   for (i = 0; i < num_cpus; i++)
     {
