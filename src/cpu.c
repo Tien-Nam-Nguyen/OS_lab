@@ -1,5 +1,7 @@
 #include "cpu.h"
 #include "mem.h"
+#include <stdio.h>
+#include "stdlib.h"
 
 static int
 calc (struct pcb_t *proc)

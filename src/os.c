@@ -41,7 +41,6 @@ cpu_routine (void *args)
         {
           /* No process is running, the we load new process from
            * ready queue */
-          ;
           proc = get_proc ();
         }
       else if (proc->pc == proc->code->size)
@@ -172,7 +171,7 @@ main (int argc, char *argv[])
   /* Init scheduler */
   init_scheduler ();
 
-  /* Run CPU and loader */
+  /* Run CP Uand loader */
   pthread_create (&ld, NULL, ld_routine, (void *)ld_event);
   for (i = 0; i < num_cpus; i++)
     {

@@ -39,16 +39,8 @@ get_proc (void)
         }
       ready_queue.size = run_queue.size;
       run_queue.size = 0;
-      res = dequeue (&ready_queue);
-      // pthread_mutex_unlock(&queue_lock);
-      // return res;
     }
-  else
-    {
-      res = dequeue (&ready_queue);
-      // pthread_mutex_unlock(&queue_lock);
-      // return res;
-    }
+  res = dequeue (&ready_queue);
   pthread_mutex_unlock (&queue_lock);
   return res;
 }
