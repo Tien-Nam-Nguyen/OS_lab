@@ -254,12 +254,12 @@ free_mem (addr_t address, struct pcb_t *proc)
       page_table->size--;
 
       // Delete page table if empty
-      if (page_table->size == 0)
+      /*if (page_table->size == 0)
         {
           free (proc->seg_table->table[first_lev].pages);
           proc->seg_table->table[first_lev].pages = NULL;
           proc->seg_table->size--;
-        }
+        }*/
 
       vir_addr += PAGE_SIZE;
     }
@@ -268,7 +268,32 @@ free_mem (addr_t address, struct pcb_t *proc)
   if (vir_addr == proc->bp)
     {
       proc->bp = address;
+      while (proc->bp != 0)
+        {
+          addr_t prev = proc->bp - PAGE_SIZE;
+          addr_t first_lev = get_first_lv (prev);
+          addr_t second_lev = get_second_lv (prev);
+          struct page_table_t *page_table
+              = get_page_table (first_lev, proc->seg_table);
+          if (page_table->table[second_lev].v_index == -1) 
+            {
+              proc->bp = prev;
+            }
+          else break;
+        }
     }
+
+    for (int i = (int)proc->seg_table->size - 1; i>=0; i--)
+      {
+        struct page_table_t *page_table = proc->seg_table->table[i].pages;
+        if (page_table->size == 0)
+          {
+            free (proc->seg_table->table[i].pages);
+            proc->seg_table->table[i].pages = NULL;
+            proc->seg_table->size--;
+          }
+        else break;
+      }
 
   pthread_mutex_unlock (&mem_lock);
   return 0;
