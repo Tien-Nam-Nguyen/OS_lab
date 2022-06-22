@@ -75,3 +75,6 @@ Temporary Items
 # Remove build results
 mem
 os
+
+# Ignore .pdf files
+*.pdf
