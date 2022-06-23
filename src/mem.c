@@ -95,6 +95,21 @@ translate (addr_t virtual_addr,   // Given virtual address
   return 1;
 }
 
+void
+alloc_page_table (struct pcb_t *proc, addr_t first_lv)
+{
+  proc->seg_table->table[first_lv].pages
+      = malloc (sizeof (struct page_table_t));
+  proc->seg_table->table[first_lv].pages->size = 0;
+
+  struct page_table_t *page_table = get_page_table (first_lv, proc->seg_table);
+  for (int j = 0; j < (1 << PAGE_LEN); j++)
+    page_table->table[j].v_index = -1;
+
+  proc->seg_table->table[first_lv].v_index = first_lv;
+  proc->seg_table->size++;
+}
+
 addr_t
 alloc_mem (uint32_t size, struct pcb_t *proc)
 {
@@ -193,21 +208,6 @@ alloc_mem (uint32_t size, struct pcb_t *proc)
 
   pthread_mutex_unlock (&mem_lock);
   return ret_mem;
-}
-
-void
-alloc_page_table (struct pcb_t *proc, addr_t first_lv)
-{
-  proc->seg_table->table[first_lv].pages
-      = malloc (sizeof (struct page_table_t));
-  proc->seg_table->table[first_lv].pages->size = 0;
-
-  struct page_table_t *page_table = get_page_table (first_lv, proc->seg_table);
-  for (int j = 0; j < (1 << PAGE_LEN); j++)
-    page_table->table[j].v_index = -1;
-
-  proc->seg_table->table[first_lv].v_index = first_lv;
-  proc->seg_table->size++;
 }
 
 int
