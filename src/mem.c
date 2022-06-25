@@ -279,9 +279,9 @@ free_mem (addr_t address, struct pcb_t *proc)
     {
       struct page_table_t *page_table = get_page_table (i, proc->seg_table);
 
-      // Skip if page_table isn't empty
+      // Stop if page_table isn't empty
       if (page_table->size > 0)
-        continue;
+        break;
 
       free (proc->seg_table->table[i].pages);
       proc->seg_table->table[i].pages = NULL;
